@@ -32,6 +32,8 @@
 
 ## Подключение
 
+![img.png](img.png)
+
 ### A. Плагином (рекомендуется)
 
 `opencode.json` — в проекте или глобальный `~/.config/opencode/opencode.json`:
