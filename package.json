@@ -1,0 +1,28 @@
+{
+  "name": "@stswoon/opencode-plugin",
+  "version": "1.0.0",
+  "description": "OpenCode plugin: workflow skills myplan/myimpl/myimpl3 and subagents analyst/dev/qa/lead",
+  "type": "module",
+  "main": "./plugin.js",
+  "exports": {
+    ".": "./plugin.js"
+  },
+  "files": [
+    "plugin.js",
+    "skills",
+    "agents",
+    "commands",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "opencode": ">=1.18.30"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stswoon/opencode-plugin.git"
+  }
+}
