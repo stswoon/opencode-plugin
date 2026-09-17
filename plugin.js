@@ -15,7 +15,7 @@ const DEFAULTS = {
   overwrite: true,
 }
 
-const COMMAND_NAMES = ["myplan", "myimpl", "myimpl3"]
+const COMMAND_NAMES = ["multi-plan", "multi-impl", "multi-impl-v3"]
 
 function parseFrontmatter(text) {
   const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(text)

@@ -2,18 +2,18 @@
 
 Пакет для [OpenCode](https://opencode.ai): рабочий цикл **спека → стори → dev → QA → Lead** подключается одним плагином.
 
-Копия `.cursor/skills/{myplan,myimpl,myimpl3}` и `.cursor/agents/{analyst,dev,qa,lead}` из проекта `asteroid-defense-game`, приспособленная для переноса в другие проекты.
+Копия `.cursor/skills/{multi-plan,multi-impl,multi-impl-v3}` и `.cursor/agents/{analyst,dev,qa,lead}` из проекта `asteroid-defense-game`, приспособленная для переноса в другие проекты.
 
 ## Что внутри
 
 | Путь | Что это |
 |------|---------|
 | `plugin.js` | Плагин OpenCode: регистрирует скилы, субагентов и команды |
-| `skills/myplan/` | Скил планирования: спека + нарезка сторей (`SKILL.md`, `prompt-analyst.md`, `story-template.md`) |
-| `skills/myimpl/` | Скил реализации: волна Dev → QA → Lead (`SKILL.md`, `prompt-dev.md`, `prompt-qa.md`, `prompt-lead.md`) |
-| `skills/myimpl3/` | Скил-планировщик слотов: 4 стори в работе, без волн |
+| `skills/multi-plan/` | Скил планирования: спека + нарезка сторей (`SKILL.md`, `prompt-analyst.md`, `story-template.md`) |
+| `skills/multi-impl/` | Скил реализации: волна Dev → QA → Lead (`SKILL.md`, `prompt-dev.md`, `prompt-qa.md`, `prompt-lead.md`) |
+| `skills/multi-impl-v3/` | Скил-планировщик слотов: 4 стори в работе, без волн |
 | `agents/` | Роли `analyst`, `dev`, `qa`, `lead` (тело файла — системный промпт) |
-| `commands/` | Обёртки `/myplan`, `/myimpl`, `/myimpl3` с передачей `$ARGUMENTS` |
+| `commands/` | Обёртки `/multi-plan`, `/multi-impl`, `/multi-impl-v3` с передачей `$ARGUMENTS` |
 
 Скилы `myimpl2` (волны подряд) и `mymarket` в пакет не входят — добавь копированием, если понадобятся: `skills/<имя>/` + `agents/<роль>.md`.
 
@@ -21,14 +21,14 @@
 
 Один раз за инстанс, в config-hook (OpenCode применяет его до инициализации агентов и скилов — `InstanceBootstrap`: «Plugin can mutate config so it has to be initialized before anything else»):
 
-1. добавляет `<пакет>/skills` в `skills.paths` — скилы видны как `/myplan`, `/myimpl`, `/myimpl3`;
+1. добавляет `<пакет>/skills` в `skills.paths` — скилы видны как `/multi-plan`, `/multi-impl`, `/multi-impl-v3`;
 2. регистрирует субагентов `analyst`, `dev`, `qa`, `lead` (промпт — тело `agents/*.md`);
-3. регистрирует команды `/myplan`, `/myimpl`, `/myimpl3` (шаблоны — `commands/*.md`).
+3. регистрирует команды `/multi-plan`, `/multi-impl`, `/multi-impl-v3` (шаблоны — `commands/*.md`).
 
 ## Требования
 
 - OpenCode **>= 1.18.30** (config-hook с мутацией `cfg.skills`, `cfg.agent`, `cfg.command`). Проверено на desktop 1.18.31.
-- Проект со структурой `AGENTS.md` + `docs/spec/` + `docs/plan/` — как в `asteroid-defense-game`. `myplan` создаёт недостающие файлы при первом запуске.
+- Проект со структурой `AGENTS.md` + `docs/spec/` + `docs/plan/` — как в `asteroid-defense-game`. `multi-plan` создаёт недостающие файлы при первом запуске.
 
 ## Подключение
 
@@ -61,7 +61,7 @@
 |-------|--------------|-------|
 | `skills` | `true` | добавлять `<пакет>/skills` в `skills.paths` |
 | `agents` | `true` | регистрировать `analyst` / `dev` / `qa` / `lead` |
-| `commands` | `true` | регистрировать `/myplan`, `/myimpl`, `/myimpl3` |
+| `commands` | `true` | регистрировать `/multi-plan`, `/multi-impl`, `/multi-impl-v3` |
 | `overwrite` | `true` | перекрывать одноимённых агентов и команды, объявленные в конфиге проекта; `false` — существующие не трогать |
 
 После правки конфига **перезапустить OpenCode** — конфиг читается один раз при старте.
@@ -75,10 +75,10 @@
 ## Использование
 
 ```
-/myplan <задача>            — analyst: спека + стори со статусами
-/myimpl <Sxx …>             — одна волна: Dev → QA → Lead, статус «сделано» после LEAD_PASS
-/myimpl3 <Sxx …>            — планировщик слотов: 4 стори в работе, новая берётся по освобождению
-/myimpl без аргументов      — все готовые стори одной волной
+/multi-plan <задача>        — analyst: спека + стори со статусами
+/multi-impl <Sxx …>         — одна волна: Dev → QA → Lead, статус «сделано» после LEAD_PASS
+/multi-impl-v3 <Sxx …>      — планировщик слотов: 4 стори в работе, новая берётся по освобождению
+/multi-impl без аргументов  — все готовые стори одной волной
 ```
 
 Субагентов оркестратор запускает сам (Task); вручную — `/analyst`, `/dev`, `/qa`, `/lead`.
@@ -87,10 +87,10 @@
 
 Скилы и роли пишут в проект, в `.cursor/artifacts/`:
 
-- `decisions.md` — журнал допущений `D…` (ведёт оркестратор `myimpl`);
+- `decisions.md` — журнал допущений `D…` (ведёт оркестратор `multi-impl`);
 - `bug-report-Sxx.md` — отчёт QA;
 - `review-notes-Sxx.md` — замечания Lead;
-- `scheduler.md` — статусборд `myimpl3`.
+- `scheduler.md` — статусборд `multi-impl-v3`.
 
 Путь оставлен от Cursor-версии, чтобы файлы не разъезжались между инструментами. Если `.cursor/` не нужен — замени путь в скилах и агентах на удобный.
 

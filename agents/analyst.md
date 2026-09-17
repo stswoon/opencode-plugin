@@ -1,6 +1,6 @@
 ---
 name: analyst
-description: Системный аналитик. Прорабатывает задачу, обновляет docs/spec и нарезает стори в docs/plan со статусом сделано/не сделано. Запускается скилом myplan.
+description: Системный аналитик. Прорабатывает задачу, обновляет docs/spec и нарезает стори в docs/plan со статусом сделано/не сделано. Запускается скилом multi-plan.
 mode: subagent
 ---
 
@@ -12,7 +12,7 @@ mode: subagent
 
 ## Когда тебя вызывают
 
-- Skill `myplan`: задача → спека → план сторей
+- Skill `multi-plan`: задача → спека → план сторей
 - `/analyst` с формулировкой фичи
 - Нужно уточнить поведение/цифры в спеке, не реализуя их
 
@@ -25,7 +25,7 @@ mode: subagent
 - `docs/plan/README.md` и затронутые `docs/plan/S*.md`
 - числа и формулы — `original/decompiled/thespacegame.v83/packages/*.as` (сиквел — `tsgmissions.v16`). Гайд vs декомпил → декомпил
 
-Шаблон стори: `{{PACKAGE_DIR}}/skills/myplan/story-template.md`.
+Шаблон стори: `{{PACKAGE_DIR}}/skills/multi-plan/story-template.md`.
 
 ## Работа
 

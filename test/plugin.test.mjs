@@ -26,16 +26,16 @@ test("registers skills path, four agents and three commands", async () => {
     assert.ok(agent.prompt.length > 200, `${name} has a full prompt`)
   }
 
-  assert.deepEqual(Object.keys(cfg.command).sort(), ["myimpl", "myimpl3", "myplan"])
-  assert.match(cfg.command.myplan.template, /\$ARGUMENTS/)
-  assert.match(cfg.command.myplan.template, /myplan/)
+  assert.deepEqual(Object.keys(cfg.command).sort(), ["multi-impl", "multi-impl-v3", "multi-plan"])
+  assert.match(cfg.command["multi-plan"].template, /\$ARGUMENTS/)
+  assert.match(cfg.command["multi-plan"].template, /multi-plan/)
 })
 
 test("keeps descriptions with a colon and resolves {{PACKAGE_DIR}}", async () => {
   const cfg = await apply({})
 
   assert.match(cfg.agent.dev.description, /Разработчик стори: пишет код/)
-  const template = skillsDir.replaceAll("\\", "/") + "/myplan/story-template.md"
+  const template = skillsDir.replaceAll("\\", "/") + "/multi-plan/story-template.md"
   assert.ok(cfg.agent.analyst.prompt.includes(template))
   assert.ok(!cfg.agent.analyst.prompt.includes("{{PACKAGE_DIR}}"))
 })
@@ -64,18 +64,18 @@ test("options disable parts of the registration", async () => {
 })
 
 test("overwrite: false leaves project agents and commands alone", async () => {
-  const existing = { agent: { dev: { description: "custom" } }, command: { myplan: { template: "custom" } } }
+  const existing = { agent: { dev: { description: "custom" } }, command: { "multi-plan": { template: "custom" } } }
   const cfg = await apply(existing, { overwrite: false })
 
   assert.deepEqual(cfg.agent.dev, { description: "custom" })
-  assert.deepEqual(cfg.command.myplan, { template: "custom" })
+  assert.deepEqual(cfg.command["multi-plan"], { template: "custom" })
   assert.ok(cfg.agent.qa)
 })
 
 test("overwrite: true replaces project agents and commands", async () => {
-  const existing = { agent: { dev: { description: "custom" } }, command: { myplan: { template: "custom" } } }
+  const existing = { agent: { dev: { description: "custom" } }, command: { "multi-plan": { template: "custom" } } }
   const cfg = await apply(existing, {})
 
   assert.notEqual(cfg.agent.dev.description, "custom")
-  assert.notEqual(cfg.command.myplan.template, "custom")
+  assert.notEqual(cfg.command["multi-plan"].template, "custom")
 })
