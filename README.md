@@ -19,6 +19,8 @@
 
 ## Что делает плагин
 
+![ag.drawio.png](ag.drawio.png)
+
 Один раз за инстанс, в config-hook (OpenCode применяет его до инициализации агентов и скилов — `InstanceBootstrap`: «Plugin can mutate config so it has to be initialized before anything else»):
 
 1. добавляет `<пакет>/skills` в `skills.paths` — скилы видны как `/multi-plan`, `/multi-impl`, `/multi-impl-v3`;
